@@ -1977,6 +1977,21 @@
 // Enable Anycubic TFT
 #define ANYCUBIC_TFT_MODEL
 #define ANYCUBIC_FILAMENT_RUNOUT_SENSOR
-#define ANYCUBIC_TFT_DEBUG
+// #define ANYCUBIC_TFT_DEBUG
+
+/**
+ * Anycubic TFT display does not allow to select neither the length of filament 
+ * extruded/retracted when pressing 'Filament IN' or 'Filament OUT', nor the extrusion speed.
+ * Uncomment this setting in order to override TFT commands and send gcode values according
+ * to the parameters (length and speed) defined below.
+ */
+#define OVERRIDE_ANYCUBIC_TFT_EXTRUSION
+
+#ifdef OVERRIDE_ANYCUBIC_TFT_EXTRUSION
+  #define ANYCUBIC_TFT_EXTRUSION_LOAD_LENGTH    20   // [mm]
+  #define ANYCUBIC_TFT_EXTRUSION_UNLOAD_LENGTH  100  // [mm]
+  #define ANYCUBIC_TFT_EXTRUSION_LOAD_SPEED     200  // [mm / min] equivalent to gcode feedrate F value in G1 command
+  #define ANYCUBIC_TFT_EXTRUSION_UNLOAD_SPEED   3500 // [mm / min] equivalent to gcode feedrate F value in G1 command
+#endif
 
 #endif // CONFIGURATION_H

@@ -1155,7 +1155,15 @@ void AnycubicTFTClass::GetCommandFromTFT()
                 coorvalue=CodeValue();
                 if((coorvalue<=0.2)&&coorvalue>0) {sprintf_P(value,PSTR("G1 E0.1F%i"),movespeed);}
                 else if((coorvalue<=-0.1)&&coorvalue>-1) {sprintf_P(value,PSTR("G1 E-0.1F%i"),movespeed);}
-                else {sprintf_P(value,PSTR("G1 E%iF500"),int(coorvalue)); }
+                else 
+                {
+                  #ifdef OVERRIDE_ANYCUBIC_TFT_EXTRUSION
+                    if(coorvalue>0) {sprintf_P(value, PSTR("G1 E%i F%i"), ANYCUBIC_TFT_EXTRUSION_LOAD_LENGTH, ANYCUBIC_TFT_EXTRUSION_LOAD_SPEED);}
+                    else {sprintf_P(value, PSTR("G1 E-%i F%i"), ANYCUBIC_TFT_EXTRUSION_UNLOAD_LENGTH, ANYCUBIC_TFT_EXTRUSION_UNLOAD_SPEED);}
+                  #else
+                    sprintf_P(value,PSTR("G1 E%iF500"),int(coorvalue)); 
+                  #endif
+                }
                 enqueue_and_echo_command(value);
               }
               enqueue_and_echo_commands_P(PSTR("G90")); // absolute coordinates
